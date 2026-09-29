@@ -175,6 +175,46 @@
   .role-card dt { color: var(--ink-muted); }
   .role-card dd { margin: 0; }
 
+  /* ---------- Фильм о бренде ---------- */
+  .film { padding-block: 0 88px; }
+  .film-frame {
+    position: relative;
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 122, 0.3);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    background: var(--navy);
+    aspect-ratio: 16 / 9;
+    max-width: 100%;
+  }
+  .film-frame video { width: 100%; height: 100%; display: block; object-fit: cover; }
+  .film-controls {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    display: flex;
+    gap: 8px;
+  }
+  .film-controls button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(199, 204, 211, 0.35);
+    background: rgba(11, 19, 33, 0.72);
+    backdrop-filter: blur(6px);
+    color: var(--text);
+    font: 600 14px/1.2 var(--font);
+    cursor: pointer;
+  }
+  .film-controls button:hover { border-color: var(--gold); }
+  .film-controls button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .film-caption { margin-top: 14px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
+  .film-caption b { color: var(--text); font-weight: 600; }
+  @media (max-width: 560px) { .film { padding-block: 0 64px; } .film-controls { left: 10px; bottom: 10px; } }
+
   /* ---------- Разделы ---------- */
   section { scroll-margin-top: 72px; }
   .band { padding-block: 88px; border-top: 1px solid var(--line); }
@@ -394,6 +434,19 @@
     </div>
   </section>
 
+  <section class="film" aria-label="Фильм о бренде">
+    <div class="wrap">
+      <figure class="film-frame">
+        <video id="brand-film" src="assets/brand-film.mp4" poster="assets/brand-film-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Фильм «Система Порядка»: переговорная ночью, руководитель смотрит показатели на планшете, в конце — логотип"></video>
+        <div class="film-controls">
+          <button type="button" id="film-play" aria-pressed="true">Пауза</button>
+          <button type="button" id="film-sound" aria-pressed="false">Включить звук</button>
+        </div>
+      </figure>
+      <p class="film-caption"><b>Система Порядка</b><span>Порядок в системе — результат в бизнесе</span></p>
+    </div>
+  </section>
+
   <section class="band raised" id="problem">
     <div class="wrap">
       <div class="section-head">
@@ -533,6 +586,42 @@
     <span>© 2026 Система Порядка</span>
   </div>
 </footer>
+
+<script>
+  // Фильм о бренде: сам идёт без звука; при «уменьшении движения» стоит на кадре с логотипом.
+  (() => {
+    const video = document.getElementById('brand-film')
+    const play = document.getElementById('film-play')
+    const sound = document.getElementById('film-sound')
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+    function sync() {
+      play.textContent = video.paused ? 'Смотреть' : 'Пауза'
+      play.setAttribute('aria-pressed', String(!video.paused))
+      sound.textContent = video.muted ? 'Включить звук' : 'Выключить звук'
+      sound.setAttribute('aria-pressed', String(!video.muted))
+    }
+
+    if (reduce.matches) {
+      video.removeAttribute('autoplay')
+      video.pause()
+    }
+
+    play.addEventListener('click', () => {
+      if (video.paused) video.play().catch(() => {})
+      else video.pause()
+    })
+    sound.addEventListener('click', () => {
+      video.muted = !video.muted
+      if (!video.muted && video.paused) video.play().catch(() => {})
+      sync()
+    })
+    video.addEventListener('play', sync)
+    video.addEventListener('pause', sync)
+    video.addEventListener('volumechange', sync)
+    sync()
+  })()
+</script>
 
 <script>
   // Витрина продуктов. Данные — catalog/products.json, правила — CATALOG.md.
