@@ -1,0 +1,469 @@
+<title>Система Порядка</title>
+<meta name="description" content="Система Порядка — структура управления результатом. Оргструктура, процессы, ответственность, KPI и документы в одной модели компании." />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" />
+<style>
+  /* Тёмная стратегическая тема из брендбука: одна тема сознательно.
+     Сетка: узкая колонка текста + широкие «рабочие поверхности» с моделью компании. */
+  :root {
+    --navy: #0b1321;
+    --navy-raised: #111b2e;
+    --graphite: #1a1f2b;
+    --silver: #c7ccd3;
+    --steel: #355c8a;
+    --steel-light: #6f95cf;
+    --gold: #d4af7a;
+    --gold-light: #e2c292;
+    --text: #e4e7ec;
+    --muted: #9aa3b2;
+    --line: rgba(199, 204, 211, 0.14);
+    --line-strong: rgba(199, 204, 211, 0.24);
+    --paper: #f7f8fa;
+    --ink: #1a1f2b;
+    --ink-muted: #5b6575;
+    --ok: #2f7d5b;
+    --warning: #b8893f;
+    --critical: #b03a3a;
+    --font: "Manrope", "Segoe UI", system-ui, sans-serif;
+    --wrap: 1180px;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--navy);
+    color: var(--text);
+    font: 400 16px/1.6 var(--font);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+  img { max-width: 100%; height: auto; display: block; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
+  p { margin: 0; }
+
+  .wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: 24px; }
+  @media (max-width: 560px) { .wrap { padding-inline: 16px; } }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 22px;
+    border-radius: 10px;
+    border: 1px solid var(--line-strong);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    font: 600 15px/1.2 var(--font);
+    text-decoration: none;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+  }
+  .btn:hover { border-color: rgba(212, 175, 122, 0.6); }
+  .btn:focus-visible, a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .btn-gold { background: var(--gold); border-color: var(--gold); color: var(--navy); font-weight: 700; }
+  .btn-gold:hover { background: var(--gold-light); border-color: var(--gold-light); transform: translateY(-1px); }
+  .btn small { font-weight: 500; opacity: 0.75; }
+
+  /* ---------- Шапка ---------- */
+  .top {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: rgba(11, 19, 33, 0.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(212, 175, 122, 0.18);
+  }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand img { width: 34px; height: auto; }
+  .brand b { display: block; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; color: #fff; line-height: 1.1; }
+  .brand span { display: block; font-size: 12px; color: var(--steel-light); line-height: 1.3; }
+  .nav { display: flex; gap: 22px; font-size: 14px; color: var(--muted); }
+  .nav a { text-decoration: none; }
+  .nav a:hover { color: var(--text); }
+  @media (max-width: 900px) { .nav { display: none; } }
+
+  /* ---------- Первый экран ---------- */
+  .hero {
+    background:
+      radial-gradient(circle at 0 0, rgba(53, 92, 138, 0.32), transparent 45%),
+      radial-gradient(circle at 100% 30%, rgba(212, 175, 122, 0.08), transparent 35%);
+  }
+  .hero .wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 56px;
+    align-items: center;
+    padding-block: 72px 88px;
+  }
+  .hero h1 { font-size: clamp(34px, 4.4vw, 54px); line-height: 1.08; font-weight: 800; color: #fff; margin-top: 18px; }
+  .hero h1 em { font-style: normal; color: var(--gold); }
+  .lead { margin-top: 22px; font-size: 18px; color: var(--muted); max-width: 34em; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .hero-note { margin-top: 18px; font-size: 13px; color: var(--muted); }
+  @media (max-width: 980px) { .hero .wrap { grid-template-columns: 1fr; gap: 40px; padding-block: 48px 64px; } }
+
+  /* Модель компании: светлая рабочая поверхность, как в программах бренда */
+  .model {
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+    display: grid;
+    gap: 16px;
+    min-width: 0;
+  }
+  .model-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .model-head strong { font-size: 15px; }
+  .health { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-muted); }
+  .health b { color: var(--ink); font-variant-numeric: tabular-nums; }
+  .health i { width: 64px; height: 6px; border-radius: 3px; background: #e3e7ed; overflow: hidden; }
+  .health i::after { content: ""; display: block; width: 78%; height: 100%; background: var(--steel); }
+
+  .matrix-box { overflow-x: auto; border: 1px solid #d8dde4; border-radius: 10px; }
+  .matrix { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 420px; }
+  .matrix th, .matrix td { padding: 9px 10px; border-bottom: 1px solid #e6e9ee; text-align: center; }
+  .matrix thead th { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-muted); background: #f1f3f6; }
+  .matrix tbody th { text-align: left; font-weight: 600; white-space: nowrap; }
+  .matrix tr:last-child th, .matrix tr:last-child td { border-bottom: 0; }
+  .role {
+    display: inline-grid;
+    place-items: center;
+    min-width: 30px;
+    height: 24px;
+    padding-inline: 5px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    background: #e8edf4;
+    color: var(--steel);
+  }
+  .role.owner { background: var(--steel); color: #fff; }
+  .row-alert th::after {
+    content: "два владельца";
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--critical);
+  }
+  .row-alert td, .row-alert th { background: #fbf1f0; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--ink-muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+  .role-card { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 13px; padding: 14px 16px; background: #fff; border: 1px solid #d8dde4; border-radius: 10px; }
+  .role-card .title { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 4px; }
+  .role-card .title b { font-size: 15px; }
+  .role-card .title span { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--steel); }
+  .role-card dt { color: var(--ink-muted); }
+  .role-card dd { margin: 0; }
+
+  /* ---------- Разделы ---------- */
+  section { scroll-margin-top: 72px; }
+  .band { padding-block: 88px; border-top: 1px solid var(--line); }
+  .band.raised { background: var(--navy-raised); }
+  .section-head { max-width: 760px; display: grid; gap: 14px; }
+  .section-head h2 { font-size: clamp(26px, 3vw, 38px); line-height: 1.18; font-weight: 700; color: #fff; }
+  .section-head p:not(.eyebrow) { color: var(--muted); font-size: 17px; }
+  @media (max-width: 560px) { .band { padding-block: 64px; } }
+
+  .pains { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+  .pains li { padding: 22px 24px 22px 0; border-bottom: 1px solid var(--line); color: var(--text); display: flex; gap: 14px; }
+  .pains li::before { content: ""; flex: 0 0 8px; height: 8px; margin-top: 9px; border: 1.5px solid var(--gold); transform: rotate(45deg); }
+  @media (max-width: 900px) { .pains { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .pains { grid-template-columns: 1fr; } }
+
+  /* «Напросвет»: две проекции и мост */
+  .through { margin-top: 44px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: stretch; }
+  .projection { border: 1px solid var(--line-strong); border-radius: 14px; padding: 24px; display: grid; gap: 12px; align-content: start; }
+  .projection h3 { font-size: 20px; color: #fff; }
+  .projection ul { margin: 0; padding-left: 18px; color: var(--muted); display: grid; gap: 6px; }
+  .bridge { display: grid; place-items: center; text-align: center; gap: 10px; padding-inline: 8px; }
+  .bridge img { width: 64px; }
+  .bridge b { color: var(--gold); font-size: 15px; }
+  .bridge span { color: var(--muted); font-size: 13px; max-width: 12em; }
+  @media (max-width: 860px) { .through { grid-template-columns: 1fr; } .bridge { padding-block: 4px; } }
+
+  .features { margin-top: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .features div { background: var(--navy); padding: 20px; display: grid; gap: 6px; }
+  .features b { color: #fff; font-size: 15px; }
+  .features span { color: var(--muted); font-size: 14px; }
+  @media (max-width: 900px) { .features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .features { grid-template-columns: 1fr; } }
+
+  /* Бесплатная программа */
+  .free { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 48px; align-items: center; }
+  .free-copy { display: grid; gap: 18px; }
+  .free-copy h2 { font-size: clamp(26px, 3vw, 38px); line-height: 1.15; color: #fff; }
+  .free-copy > p:not(.eyebrow) { color: var(--muted); font-size: 17px; }
+  .facts { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; }
+  .facts li { display: flex; gap: 12px; }
+  .facts li::before { content: "✓"; color: var(--gold); font-weight: 700; }
+  .download-meta { font-size: 13px; color: var(--muted); }
+  .shot { border-radius: 14px; overflow: hidden; border: 1px solid var(--line-strong); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45); }
+  .shot figcaption { font-size: 12px; color: var(--muted); padding: 10px 14px; background: var(--navy-raised); }
+  @media (max-width: 980px) { .free { grid-template-columns: 1fr; } }
+
+  /* Пилот */
+  .steps { margin-top: 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; counter-reset: step; }
+  .step { border-top: 2px solid var(--gold); padding-top: 18px; display: grid; gap: 8px; align-content: start; }
+  .step::before { counter-increment: step; content: "Шаг " counter(step); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  .step h3 { font-size: 20px; color: #fff; }
+  .step p { color: var(--muted); }
+  @media (max-width: 820px) { .steps { grid-template-columns: 1fr; } }
+
+  .outputs { margin-top: 36px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; padding: 24px; border: 1px solid var(--line-strong); border-radius: 14px; }
+  .outputs div { display: grid; gap: 4px; }
+  .outputs b { font-size: 30px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .outputs span { color: var(--muted); font-size: 14px; }
+  @media (max-width: 820px) { .outputs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  /* Философия */
+  .quote { display: grid; grid-template-columns: auto 1fr; gap: 36px; align-items: center; }
+  .quote img { width: 120px; }
+  .quote blockquote { margin: 0; font-size: clamp(24px, 2.8vw, 34px); line-height: 1.3; font-weight: 700; color: #fff; letter-spacing: -0.015em; }
+  .quote p { margin-top: 16px; color: var(--muted); max-width: 40em; }
+  @media (max-width: 640px) { .quote { grid-template-columns: 1fr; } .quote img { width: 80px; } }
+
+  /* Контакт */
+  .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+  .contact-card { border: 1px dashed var(--line-strong); border-radius: 14px; padding: 24px; display: grid; gap: 14px; }
+  .contact-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; }
+  .contact-card dt { color: var(--muted); }
+  .contact-card dd { margin: 0; color: var(--text); }
+  .soon { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--steel-light); }
+  @media (max-width: 820px) { .contact { grid-template-columns: 1fr; } }
+
+  footer { border-top: 1px solid rgba(212, 175, 122, 0.18); padding-block: 28px; font-size: 13px; color: var(--muted); }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: center; }
+  footer .brand img { width: 24px; }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Система Порядка — наверх">
+      <img src="assets/mark-3d.svg" alt="" width="34" height="37" />
+      <div><b>Система Порядка</b><span>Структура управления результатом</span></div>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#problem">Проблема</a>
+      <a href="#model">Как устроено</a>
+      <a href="#free">Бесплатная программа</a>
+      <a href="#pilot">Пилот</a>
+      <a href="#contact">Контакт</a>
+    </nav>
+    <a class="btn btn-gold" href="#contact">Запросить пилот</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Программа и внедрение для B2B</p>
+        <h1>Порядок — это фундамент, на котором строится <em>свобода лидера</em></h1>
+        <p class="lead">«Система Порядка» соединяет оргструктуру, процессы, роли, ответственность, KPI и документы в одну модель компании. Видно, кто за что отвечает, где дубли и где провалы — до того, как они стоят денег.</p>
+        <div class="actions">
+          <a class="btn btn-gold" href="#contact">Запросить пилот</a>
+          <a class="btn" href="#free">Оргструктура бесплатно <small>для Windows</small></a>
+        </div>
+        <p class="hero-note">Работает на вашем компьютере или сервере. Данные не уходят к разработчику.</p>
+      </div>
+
+      <div class="model" aria-label="Пример: матрица ответственности">
+        <div class="model-head">
+          <strong>Матрица «Напросвет» · отдел продаж</strong>
+          <span class="health">Здоровье модели <i aria-hidden="true"></i> <b>78%</b></span>
+        </div>
+        <div class="matrix-box">
+          <table class="matrix">
+            <thead>
+              <tr><th scope="col">Процесс</th><th scope="col">Ком. директор</th><th scope="col">Рук. продаж</th><th scope="col">Склад</th><th scope="col">Фин. директор</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Приём заказа</th><td><span class="role">К</span></td><td><span class="role owner">В</span></td><td><span class="role">ИН</span></td><td></td></tr>
+              <tr><th scope="row">Отгрузка</th><td><span class="role">ИН</span></td><td><span class="role">У</span></td><td><span class="role owner">В</span></td><td></td></tr>
+              <tr class="row-alert"><th scope="row">Скидка клиенту</th><td><span class="role owner">В</span></td><td><span class="role owner">В</span></td><td></td><td><span class="role">С</span></td></tr>
+              <tr><th scope="row">Счёт и оплата</th><td></td><td><span class="role">ИС</span></td><td></td><td><span class="role owner">В</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="legend">
+          <span><span class="role owner">В</span> владелец</span>
+          <span><span class="role">ИС</span> исполнитель</span>
+          <span><span class="role">У</span> участник</span>
+          <span><span class="role">С</span> согласует</span>
+          <span><span class="role">К</span> контролирует</span>
+          <span><span class="role">ИН</span> информируется</span>
+        </div>
+        <div class="role-card">
+          <div class="title"><b>Руководитель отдела продаж</b><span>Карточка должности</span></div>
+          <dt>Продукт</dt><dd>Оплаченные заказы в срок и без возвратов</dd>
+          <dt>KPI</dt><dd>Выручка по оплатам, % заказов без ошибок</dd>
+          <dt>Документы</dt><dd>Регламент приёма заказа, положение о скидках</dd>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band raised" id="problem">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Проблема</p>
+        <h2>Документов в компаниях хватает. Беда в том, что роли, процессы и ответственность живут отдельно</h2>
+        <p>Оргструктура — в одной схеме, процессы — в презентациях, инструкции — в Word, штатное — в Excel. Всё формально есть и быстро расходится.</p>
+      </div>
+      <ul class="pains">
+        <li>Непонятно, кто за что реально отвечает</li>
+        <li>Процессы и инструкции не совпадают с реальной работой</li>
+        <li>Функции дублируются, а на стыках — провалы ответственности</li>
+        <li>Новые сотрудники долго входят в роль</li>
+        <li>Регламенты лежат отдельно и не связаны с процессами</li>
+        <li>Руководитель разбирает хаос вместо того, чтобы управлять результатом</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" id="model">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Как устроено</p>
+        <h2>Оргструктура и процессы — две проекции одной модели. Мост между ними — должность</h2>
+        <p>Мы называем это «напросвет»: выберите должность и увидьте её процессы, KPI и документы; поменяйте владельца процесса — и система покажет, какие инструкции пора пересмотреть.</p>
+      </div>
+      <div class="through">
+        <div class="projection">
+          <p class="eyebrow">Проекция 1</p>
+          <h3>Оргструктура</h3>
+          <ul>
+            <li>подразделения и должности</li>
+            <li>подчинение</li>
+            <li>продукт должности и KPI</li>
+          </ul>
+        </div>
+        <div class="bridge">
+          <img src="assets/mark-3d.svg" alt="" width="64" height="69" />
+          <b>Должность</b>
+          <span>роли в процессах, продукт, KPI, документы</span>
+        </div>
+        <div class="projection">
+          <p class="eyebrow">Проекция 2</p>
+          <h3>Карта процессов</h3>
+          <ul>
+            <li>процессы и этапы</li>
+            <li>владелец, исполнители, согласующие</li>
+            <li>регламенты и формы</li>
+          </ul>
+        </div>
+      </div>
+      <div class="features">
+        <div><b>Живая оргструктура</b><span>Схема, которая не устаревает после консультанта</span></div>
+        <div><b>Карточки должностей</b><span>Продукт, KPI, роли и документы в одном месте</span></div>
+        <div><b>Матрица ответственности</b><span>Шесть ролей и сигналы о дублях и провалах</span></div>
+        <div><b>Должностные инструкции</b><span>Собираются из модели, без AI-фантазий</span></div>
+        <div><b>Библиотека документов</b><span>Один файл — видно во всех связанных местах</span></div>
+        <div><b>Анализ изменений</b><span>Что затронет новый владелец процесса</span></div>
+        <div><b>Здоровье модели</b><span>Понятный индекс и список, что исправить</span></div>
+        <div><b>Локально</b><span>На вашем ПК или сервере, без облака</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band raised" id="free">
+    <div class="wrap free">
+      <div class="free-copy">
+        <p class="eyebrow">Бесплатно</p>
+        <h2>Начните с оргструктуры — бесплатно и навсегда</h2>
+        <p>«Оргструктура» — программа «Системы Порядка» для схемы подчинения. Соберите схему за вечер и распечатайте на лист А4.</p>
+        <ul class="facts">
+          <li>Схема по людям или по подразделениям</li>
+          <li>PDF и HTML на А4 в один клик</li>
+          <li>Работает без интернета и регистрации</li>
+          <li>Файлы остаются у вас в «Документах»</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" id="download" href="https://github.com/romshil6973-droid/sistema-poryadka/releases/latest">Скачать для Windows</a>
+        </div>
+        <p class="download-meta">Версия 1.0.0 · Windows 10 и 11 · 108 МБ · установщик и версия для флешки</p>
+      </div>
+      <figure class="shot">
+        <img src="assets/orgstruktura-screen.jpg" alt="Окно программы «Оргструктура»: схема подчинения из семи карточек сотрудников" width="1600" height="959" />
+        <figcaption>Оргструктура 1.0 · пример схемы</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="band" id="pilot">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Пилот за 2–6 недель</p>
+        <h2>Первый результат — управленческий эффект на одном контуре, а не платформа ради платформы</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>Выбираем контур</h3><p>Один департамент, функция или ключевой процесс — там, где боль острее всего.</p></div>
+        <div class="step"><h3>Собираем модель</h3><p>Фиксируем роли, процессы, документы, точки ответственности, дубли и разрывы.</p></div>
+        <div class="step"><h3>Отдаём результат</h3><p>Карта ролей, матрица ответственности, связанные регламенты и обновлённые инструкции.</p></div>
+      </div>
+      <div class="outputs">
+        <div><b>10–20</b><span>карточек должностей</span></div>
+        <div><b>5–10</b><span>ключевых процессов</span></div>
+        <div><b>1</b><span>матрица ответственности</span></div>
+        <div><b>DOCX, PDF</b><span>готовые документы на выходе</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band raised">
+    <div class="wrap quote">
+      <img src="assets/mark-3d.svg" alt="" width="120" height="130" />
+      <div>
+        <blockquote>Порядок — это не ограничение свободы. Порядок — это фундамент, на котором строится настоящая свобода лидера.</blockquote>
+        <p>Когда роли, процессы и ответственность собраны в одну систему, руководитель перестаёт разбирать хаос и начинает управлять результатом.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="contact">
+    <div class="wrap contact">
+      <div class="section-head">
+        <p class="eyebrow">Контакт</p>
+        <h2>Обсудим пилот для вашей компании</h2>
+        <p>Расскажите, где сейчас больше всего хаоса: отдел, процесс или стык между ними. Предложим контур пилота и срок.</p>
+      </div>
+      <div class="contact-card">
+        <p class="soon">Контакты скоро появятся</p>
+        <dl>
+          <dt>Telegram</dt><dd>—</dd>
+          <dt>Почта</dt><dd>—</dd>
+          <dt>Телефон</dt><dd>—</dd>
+        </dl>
+        <p class="download-meta">Пока можно начать с бесплатной «Оргструктуры».</p>
+        <a class="btn" href="#free">К бесплатной программе</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="assets/mark-flat.svg" alt="" width="24" height="26" /><div><b>Система Порядка</b></div></a>
+    <span>Порядок в системе — результат в бизнесе</span>
+    <span>© 2026 Система Порядка</span>
+  </div>
+</footer>

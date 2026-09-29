@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1300" width="1200" height="1300">
+  <title>Система Порядка — знак</title>
+  <defs>
+    <!-- Металл обода: шампань с золотом -->
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F6EEDA"/>
+      <stop offset="0.45" stop-color="#D4C39E"/>
+      <stop offset="1" stop-color="#8A7652"/>
+    </linearGradient>
+    <!-- Тело щита: серебро-шампань, светлее к верхней грани -->
+    <radialGradient id="body" gradientUnits="userSpaceOnUse" cx="520" cy="380" r="920">
+      <stop offset="0" stop-color="#E6DECC"/>
+      <stop offset="0.5" stop-color="#C9BFA7"/>
+      <stop offset="1" stop-color="#958A72"/>
+    </radialGradient>
+    <!-- Выпуклые серебряные элементы -->
+    <linearGradient id="relief" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#B5AC98"/>
+      <stop offset="1" stop-color="#8F856F"/>
+    </linearGradient>
+    <!-- Синие ленты -->
+    <linearGradient id="blue" gradientUnits="userSpaceOnUse" x1="300" y1="40" x2="700" y2="1260">
+      <stop offset="0" stop-color="#325584"/>
+      <stop offset="0.4" stop-color="#1D3B69"/>
+      <stop offset="1" stop-color="#10254A"/>
+    </linearGradient>
+
+    <!-- Фаска: рельеф из альфы, свет сверху-слева -->
+    <filter id="bevel" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="b"/>
+      <feDiffuseLighting in="b" surfaceScale="4" diffuseConstant="1.45" lighting-color="#FFFFFF" result="d">
+        <feDistantLight azimuth="225" elevation="42"/>
+      </feDiffuseLighting>
+      <feComposite in="SourceGraphic" in2="d" operator="arithmetic" k1="1" result="lit"/>
+      <feSpecularLighting in="b" surfaceScale="4" specularConstant="0.7" specularExponent="22" lighting-color="#FFF7E6" result="s">
+        <feDistantLight azimuth="225" elevation="42"/>
+      </feSpecularLighting>
+      <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
+      <feComposite in="lit" in2="s2" operator="arithmetic" k2="1" k3="0.55"/>
+    </filter>
+    <!-- Тень от выпуклых элементов на тело щита -->
+    <filter id="drop" x="-5%" y="-5%" width="115%" height="115%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+      <feOffset dx="5" dy="8" result="o"/>
+      <feFlood flood-color="#1B1608" flood-opacity="0.55"/>
+      <feComposite in2="o" operator="in"/>
+    </filter>
+
+    <path id="shield" d="M600,28 L1152,182 L1152,640 C1152,920 920,1160 600,1282 C280,1160 48,920 48,640 L48,182 Z"/>
+    <path id="inner" d="M600,44 L1138,194 L1138,640 C1138,912 910,1146 600,1266 C290,1146 62,912 62,640 L62,194 Z"/>
+
+    <!-- «С»: верх, левый борт, изгиб к центру, стойка, нижняя дуга -->
+    <path id="letterS" d="M600,50 L66,198 L66,560 C66,585 85,600 120,615 L410,728 C450,744 470,770 470,805 L470,1110 C330,1020 215,900 172,735 L66,652 C66,915 300,1140 568,1252 L568,730 C568,690 540,672 500,660 L220,562 C175,546 150,530 150,500 L150,262 L600,152 Z"/>
+    <!-- «П»: верх, правый борт, чаша, стойка -->
+    <path id="letterP" d="M600,50 L1134,198 L1134,585 C1134,612 1116,628 1082,642 L790,752 C750,768 730,790 730,830 L730,1216 L632,1252 L632,712 C632,684 650,670 690,658 L1000,574 C1034,563 1050,546 1050,516 L1050,262 L600,152 Z"/>
+    <!-- Внутренние знаки -->
+    <path id="seven" d="M568,222 L222,318 C216,320 214,326 214,334 L214,470 C224,440 252,420 292,408 L470,352 L470,548 L568,592 Z"/>
+    <path id="ge" d="M632,222 L978,318 C984,320 986,326 986,334 L986,500 C986,525 970,542 944,550 C944,470 942,424 932,402 C924,386 906,378 880,376 L730,360 L730,628 L632,672 Z"/>
+    <!-- Правая нижняя серебряная дуга -->
+    <path id="arcR" d="M1134,652 L1028,738 C995,880 900,990 782,1062 L782,1190 C980,1090 1134,900 1134,652 Z"/>
+
+    <clipPath id="clipP"><use href="#letterP"/></clipPath>
+    <clipPath id="clipGe"><use href="#ge"/></clipPath>
+    <clipPath id="clipInner"><use href="#inner"/></clipPath>
+    <clipPath id="rightHalf"><rect x="600" y="0" width="600" height="1300"/></clipPath>
+  </defs>
+
+  <!-- Обод -->
+  <g filter="url(#bevel)"><use href="#shield" fill="url(#rim)"/></g>
+  <use href="#shield" fill="none" stroke="#2A2416" stroke-width="4"/>
+
+  <!-- Тело щита; правая половина в тени — грань по центру -->
+  <use href="#inner" fill="url(#body)"/>
+  <rect x="600" y="0" width="600" height="1300" fill="#1A1405" opacity="0.09" clip-path="url(#clipInner)"/>
+  <use href="#inner" fill="none" stroke="#4E4533" stroke-width="3"/>
+
+  <!-- Тени -->
+  <g clip-path="url(#clipInner)" filter="url(#drop)">
+    <use href="#letterS"/>
+    <use href="#letterP"/>
+    <use href="#seven"/>
+    <use href="#ge"/>
+    <use href="#arcR"/>
+  </g>
+
+  <!-- Синие буквы -->
+  <g filter="url(#bevel)"><use href="#letterS" fill="url(#blue)"/></g>
+  <use href="#letterS" fill="none" stroke="#081328" stroke-width="4"/>
+  <g filter="url(#bevel)"><use href="#letterP" fill="url(#blue)"/></g>
+  <rect x="600" y="0" width="600" height="1300" fill="#050D1C" opacity="0.2" clip-path="url(#clipP)"/>
+  <use href="#letterP" fill="none" stroke="#081328" stroke-width="4"/>
+
+  <!-- Серебряный рельеф -->
+  <g filter="url(#bevel)">
+    <use href="#seven" fill="url(#relief)"/>
+    <use href="#ge" fill="url(#relief)"/>
+    <use href="#arcR" fill="url(#relief)"/>
+  </g>
+  <rect x="600" y="0" width="600" height="1300" fill="#1A1405" opacity="0.07" clip-path="url(#clipGe)"/>
+  <g fill="none" stroke="#2A251A" stroke-width="4">
+    <use href="#seven"/>
+    <use href="#ge"/>
+    <use href="#arcR"/>
+  </g>
+
+  <!-- Центральное ребро -->
+  <path d="M600,30 L600,1280" stroke="#FFF8E6" stroke-width="3" opacity="0.45"/>
+</svg>
