@@ -96,6 +96,7 @@
   .nav a { text-decoration: none; }
   .nav a:hover { color: var(--text); }
   @media (max-width: 900px) { .nav { display: none; } }
+  @media (max-width: 560px) { .top .btn { display: none; } }
 
   /* ---------- Первый экран ---------- */
   .hero {
@@ -220,6 +221,59 @@
   .shot figcaption { font-size: 12px; color: var(--muted); padding: 10px 14px; background: var(--navy-raised); }
   @media (max-width: 980px) { .free { grid-template-columns: 1fr; } }
 
+  /* Витрина: рисуется из catalog/products.json */
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .filters button {
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--muted);
+    font: 500 14px/1.2 var(--font);
+    cursor: pointer;
+  }
+  .filters button[aria-pressed="true"] { border-color: var(--gold); color: #f3e2c4; background: rgba(212, 175, 122, 0.12); }
+  .filters button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .filters b { font-weight: 600; font-variant-numeric: tabular-nums; margin-left: 4px; opacity: 0.7; }
+
+  .featured { margin-top: 32px; }
+  .featured:empty { display: none; }
+  .catalog { margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .catalog:empty { display: none; }
+  .catalog-empty { margin-top: 24px; color: var(--muted); }
+
+  .product {
+    border: 1px solid var(--line-strong);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .product-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .product h3 { font-size: 20px; color: #fff; }
+  .product .tagline { color: var(--text); }
+  .product .desc { color: var(--muted); font-size: 15px; }
+  .product ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; display: grid; gap: 4px; }
+  .product .actions { margin-top: auto; padding-top: 8px; }
+  .price { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid currentColor;
+  }
+  .chip-free { color: var(--gold); }
+  .chip-paid { color: var(--steel-light); }
+  .chip-soon { color: var(--muted); }
+  .btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+
   /* Пилот */
   .steps { margin-top: 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; counter-reset: step; }
   .step { border-top: 2px solid var(--gold); padding-top: 18px; display: grid; gap: 8px; align-content: start; }
@@ -264,7 +318,7 @@
     <nav class="nav" aria-label="Разделы">
       <a href="#problem">Проблема</a>
       <a href="#model">Как устроено</a>
-      <a href="#free">Бесплатная программа</a>
+      <a href="#products">Продукты</a>
       <a href="#pilot">Пилот</a>
       <a href="#contact">Контакт</a>
     </nav>
@@ -281,7 +335,7 @@
         <p class="lead">«Система Порядка» соединяет оргструктуру, процессы, роли, ответственность, KPI и документы в одну модель компании. Видно, кто за что отвечает, где дубли и где провалы — до того, как они стоят денег.</p>
         <div class="actions">
           <a class="btn btn-gold" href="#contact">Запросить пилот</a>
-          <a class="btn" href="#free">Оргструктура бесплатно <small>для Windows</small></a>
+          <a class="btn" href="#products">Оргструктура бесплатно <small>для Windows</small></a>
         </div>
         <p class="hero-note">Работает на вашем компьютере или сервере. Данные не уходят к разработчику.</p>
       </div>
@@ -385,27 +439,22 @@
     </div>
   </section>
 
-  <section class="band raised" id="free">
-    <div class="wrap free">
-      <div class="free-copy">
-        <p class="eyebrow">Бесплатно</p>
-        <h2>Начните с оргструктуры — бесплатно и навсегда</h2>
-        <p>«Оргструктура» — программа «Системы Порядка» для схемы подчинения. Соберите схему за вечер и распечатайте на лист А4.</p>
-        <ul class="facts">
-          <li>Схема по людям или по подразделениям</li>
-          <li>PDF и HTML на А4 в один клик</li>
-          <li>Работает без интернета и регистрации</li>
-          <li>Файлы остаются у вас в «Документах»</li>
-        </ul>
-        <div class="actions">
-          <a class="btn btn-gold" id="download" href="https://github.com/romshil6973-droid/sistema-poryadka/releases/latest">Скачать для Windows</a>
-        </div>
-        <p class="download-meta">Версия 1.0.0 · Windows 10 и 11 · 108 МБ · установщик и версия для флешки</p>
+  <section class="band raised" id="products">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Продукты</p>
+        <h2>Программы «Системы Порядка»</h2>
+        <p>Начните с бесплатных. Платные подключайте, когда компания дорастёт до них.</p>
       </div>
-      <figure class="shot">
-        <img src="assets/orgstruktura-screen.jpg" alt="Окно программы «Оргструктура»: схема подчинения из семи карточек сотрудников" width="1600" height="959" />
-        <figcaption>Оргструктура 1.0 · пример схемы</figcaption>
-      </figure>
+      <div class="filters" role="group" aria-label="Какие продукты показать" id="filters" hidden>
+        <button type="button" data-kind="all" aria-pressed="true">Все<b data-count="all"></b></button>
+        <button type="button" data-kind="free" aria-pressed="false">Бесплатные<b data-count="free"></b></button>
+        <button type="button" data-kind="paid" aria-pressed="false">Платные<b data-count="paid"></b></button>
+      </div>
+      <div class="featured" id="featured"></div>
+      <div class="catalog" id="catalog"></div>
+      <p class="catalog-empty" id="catalog-empty" hidden>В этом разделе пока пусто.</p>
+      <noscript><p class="catalog-empty">Список продуктов показывается с включённым JavaScript.</p></noscript>
     </div>
   </section>
 
@@ -454,7 +503,7 @@
           <dt>Телефон</dt><dd>—</dd>
         </dl>
         <p class="download-meta">Пока можно начать с бесплатной «Оргструктуры».</p>
-        <a class="btn" href="#free">К бесплатной программе</a>
+        <a class="btn" href="#products">К продуктам</a>
       </div>
     </div>
   </section>
@@ -467,3 +516,147 @@
     <span>© 2026 Система Порядка</span>
   </div>
 </footer>
+
+<script>
+  // Витрина продуктов. Данные — catalog/products.json, правила — CATALOG.md.
+  (() => {
+    const REQUIRED = ['id', 'name', 'kind', 'price', 'status', 'tagline']
+    const KIND_LABEL = { free: 'Бесплатно', paid: 'Платно' }
+
+    const filters = document.getElementById('filters')
+    const featuredBox = document.getElementById('featured')
+    const catalogBox = document.getElementById('catalog')
+    const emptyNote = document.getElementById('catalog-empty')
+    let products = []
+    let kind = 'all'
+
+    function el(tag, attrs, ...children) {
+      const node = document.createElement(tag)
+      for (const [key, value] of Object.entries(attrs || {})) {
+        if (value !== undefined && value !== null && value !== false) node.setAttribute(key, value)
+      }
+      for (const child of children.flat()) {
+        if (child === null || child === undefined || child === '') continue
+        node.append(child instanceof Node ? child : document.createTextNode(String(child)))
+      }
+      return node
+    }
+
+    function isValid(product) {
+      const missing = REQUIRED.filter((key) => !product[key])
+      if (!product.action || !product.action.label) missing.push('action')
+      if (product.kind && !KIND_LABEL[product.kind]) missing.push('kind: free | paid')
+      if (missing.length) console.warn(`Каталог: продукт «${product.name || product.id || '?'}» пропущен, нет полей: ${missing.join(', ')}`)
+      return missing.length === 0
+    }
+
+    function chips(product) {
+      return el(
+        'div',
+        { class: 'chips' },
+        el('span', { class: `chip chip-${product.kind}` }, KIND_LABEL[product.kind]),
+        product.status === 'soon' ? el('span', { class: 'chip chip-soon' }, 'Скоро') : null
+      )
+    }
+
+    function actionLink(product, gold) {
+      const soon = product.status === 'soon' || !product.action.href
+      const external = !soon && /^https?:/i.test(product.action.href)
+      return el(
+        'a',
+        {
+          class: gold ? 'btn btn-gold' : 'btn',
+          href: soon ? null : product.action.href,
+          'aria-disabled': soon ? 'true' : null,
+          target: external ? '_blank' : null,
+          rel: external ? 'noopener' : null
+        },
+        soon ? 'Скоро' : product.action.label
+      )
+    }
+
+    function featuresList(product, className) {
+      if (!Array.isArray(product.features) || !product.features.length) return null
+      return el('ul', { class: className }, product.features.map((item) => el('li', null, item)))
+    }
+
+    function metaLine(product) {
+      const platforms = Array.isArray(product.platforms) ? product.platforms.join(', ') : ''
+      const text = [product.price, platforms, product.meta].filter(Boolean).join(' · ')
+      return text ? el('p', { class: 'download-meta' }, text) : null
+    }
+
+    function featuredView(product) {
+      return el(
+        'div',
+        { class: 'free' },
+        el(
+          'div',
+          { class: 'free-copy' },
+          chips(product),
+          el('h2', null, product.name),
+          el('p', null, product.tagline),
+          product.description ? el('p', null, product.description) : null,
+          featuresList(product, 'facts'),
+          el('div', { class: 'actions' }, actionLink(product, true)),
+          metaLine(product)
+        ),
+        el(
+          'figure',
+          { class: 'shot' },
+          el('img', { src: product.image, alt: product.imageAlt || product.name }),
+          el('figcaption', null, `${product.name} · пример`)
+        )
+      )
+    }
+
+    function cardView(product) {
+      return el(
+        'article',
+        { class: 'product' },
+        el('div', { class: 'product-head' }, el('h3', null, product.name), chips(product)),
+        el('p', { class: 'tagline' }, product.tagline),
+        product.description ? el('p', { class: 'desc' }, product.description) : null,
+        featuresList(product),
+        metaLine(product),
+        el('div', { class: 'actions' }, actionLink(product, product.kind === 'free'))
+      )
+    }
+
+    function render() {
+      const visible = products.filter((product) => kind === 'all' || product.kind === kind)
+      const featured = visible.find((product) => product.featured && product.image)
+      featuredBox.replaceChildren(...(featured ? [featuredView(featured)] : []))
+      catalogBox.replaceChildren(...visible.filter((product) => product !== featured).map(cardView))
+      emptyNote.hidden = visible.length > 0
+      for (const button of filters.querySelectorAll('button')) {
+        button.setAttribute('aria-pressed', String(button.dataset.kind === kind))
+      }
+    }
+
+    filters.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-kind]')
+      if (!button) return
+      kind = button.dataset.kind
+      render()
+    })
+
+    fetch('catalog/products.json')
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`)
+        return response.json()
+      })
+      .then((data) => {
+        products = (data.products || []).filter(isValid)
+        const count = (which) => products.filter((product) => which === 'all' || product.kind === which).length
+        for (const badge of filters.querySelectorAll('[data-count]')) badge.textContent = count(badge.dataset.count)
+        filters.hidden = products.length === 0
+        render()
+      })
+      .catch((error) => {
+        console.warn('Каталог не загрузился:', error)
+        emptyNote.textContent = 'Список продуктов не загрузился. Обновите страницу.'
+        emptyNote.hidden = false
+      })
+  })()
+</script>
