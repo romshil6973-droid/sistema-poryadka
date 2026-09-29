@@ -236,29 +236,47 @@
   .filters button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   .filters b { font-weight: 600; font-variant-numeric: tabular-nums; margin-left: 4px; opacity: 0.7; }
 
-  .featured { margin-top: 32px; }
-  .featured:empty { display: none; }
-  .catalog { margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-  .catalog:empty { display: none; }
+  .banners { margin-top: 28px; display: grid; gap: 16px; }
+  .banners:empty { display: none; }
   .catalog-empty { margin-top: 24px; color: var(--muted); }
 
-  .product {
+  /* Баннер продукта: картинка — описание — одна кнопка */
+  .banner {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr) auto;
+    gap: 28px;
+    align-items: center;
+    padding: 16px 28px 16px 16px;
     border: 1px solid var(--line-strong);
     border-radius: 14px;
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-width: 0;
-    background: rgba(255, 255, 255, 0.02);
+    background: linear-gradient(90deg, rgba(53, 92, 138, 0.16), rgba(255, 255, 255, 0.02) 65%);
   }
-  .product-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .product h3 { font-size: 20px; color: #fff; }
-  .product .tagline { color: var(--text); }
-  .product .desc { color: var(--muted); font-size: 15px; }
-  .product ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; display: grid; gap: 4px; }
-  .product .actions { margin-top: auto; padding-top: 8px; }
+  .banner.is-free { border-color: rgba(212, 175, 122, 0.4); }
+  .banner.is-soon { border-style: dashed; background: rgba(255, 255, 255, 0.02); }
+  .banner-visual {
+    aspect-ratio: 16 / 10;
+    max-width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at 30% 20%, rgba(53, 92, 138, 0.55), transparent 70%), var(--navy);
+    border: 1px solid var(--line);
+  }
+  .banner-visual .screen { width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+  .banner-visual .mark { width: 72px; }
+  .banner.is-soon .banner-visual .mark { filter: grayscale(1); opacity: 0.45; }
+  .banner-body { display: grid; gap: 8px; min-width: 0; }
+  .banner-title { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .banner h3 { font-size: 24px; color: #fff; }
+  .banner .tagline { color: var(--text); font-size: 17px; }
+  .banner .desc { color: var(--muted); font-size: 15px; max-width: 46em; }
+  .banner-cta { display: grid; justify-items: end; gap: 8px; text-align: right; }
   .price { font-size: 13px; font-weight: 600; color: var(--muted); }
+  @media (max-width: 860px) {
+    .banner { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
+    .banner-cta { justify-items: start; text-align: left; }
+  }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .chip {
     font-size: 11px;
@@ -451,8 +469,7 @@
         <button type="button" data-kind="free" aria-pressed="false">Бесплатные<b data-count="free"></b></button>
         <button type="button" data-kind="paid" aria-pressed="false">Платные<b data-count="paid"></b></button>
       </div>
-      <div class="featured" id="featured"></div>
-      <div class="catalog" id="catalog"></div>
+      <div class="banners" id="catalog"></div>
       <p class="catalog-empty" id="catalog-empty" hidden>В этом разделе пока пусто.</p>
       <noscript><p class="catalog-empty">Список продуктов показывается с включённым JavaScript.</p></noscript>
     </div>
@@ -520,11 +537,10 @@
 <script>
   // Витрина продуктов. Данные — catalog/products.json, правила — CATALOG.md.
   (() => {
-    const REQUIRED = ['id', 'name', 'kind', 'price', 'status', 'tagline']
     const KIND_LABEL = { free: 'Бесплатно', paid: 'Платно' }
+    const DEFAULT_ACTION = { free: 'Скачать бесплатно', paid: 'Запросить' }
 
     const filters = document.getElementById('filters')
-    const featuredBox = document.getElementById('featured')
     const catalogBox = document.getElementById('catalog')
     const emptyNote = document.getElementById('catalog-empty')
     let products = []
@@ -542,92 +558,68 @@
       return node
     }
 
+    // Заглушка «Скоро» может быть без цены и типа; доступному продукту нужно всё.
     function isValid(product) {
-      const missing = REQUIRED.filter((key) => !product[key])
-      if (!product.action || !product.action.label) missing.push('action')
-      if (product.kind && !KIND_LABEL[product.kind]) missing.push('kind: free | paid')
+      const missing = ['id', 'name', 'status', 'tagline'].filter((key) => !product[key])
+      if (product.status === 'available') {
+        if (!KIND_LABEL[product.kind]) missing.push('kind: free | paid')
+        if (!product.action || !product.action.href) missing.push('action.href')
+      }
       if (missing.length) console.warn(`Каталог: продукт «${product.name || product.id || '?'}» пропущен, нет полей: ${missing.join(', ')}`)
       return missing.length === 0
     }
 
-    function chips(product) {
-      return el(
-        'div',
-        { class: 'chips' },
-        el('span', { class: `chip chip-${product.kind}` }, KIND_LABEL[product.kind]),
-        product.status === 'soon' ? el('span', { class: 'chip chip-soon' }, 'Скоро') : null
-      )
-    }
-
-    function actionLink(product, gold) {
-      const soon = product.status === 'soon' || !product.action.href
-      const external = !soon && /^https?:/i.test(product.action.href)
+    function actionLink(product) {
+      const soon = product.status === 'soon'
+      const href = soon ? null : product.action.href
+      const external = Boolean(href) && /^https?:/i.test(href)
       return el(
         'a',
         {
-          class: gold ? 'btn btn-gold' : 'btn',
-          href: soon ? null : product.action.href,
+          class: product.kind === 'free' && !soon ? 'btn btn-gold' : 'btn',
+          href,
           'aria-disabled': soon ? 'true' : null,
           target: external ? '_blank' : null,
           rel: external ? 'noopener' : null
         },
-        soon ? 'Скоро' : product.action.label
+        soon ? 'Скоро' : (product.action && product.action.label) || DEFAULT_ACTION[product.kind]
       )
     }
 
-    function featuresList(product, className) {
-      if (!Array.isArray(product.features) || !product.features.length) return null
-      return el('ul', { class: className }, product.features.map((item) => el('li', null, item)))
-    }
-
-    function metaLine(product) {
-      const platforms = Array.isArray(product.platforms) ? product.platforms.join(', ') : ''
-      const text = [product.price, platforms, product.meta].filter(Boolean).join(' · ')
-      return text ? el('p', { class: 'download-meta' }, text) : null
-    }
-
-    function featuredView(product) {
-      return el(
-        'div',
-        { class: 'free' },
-        el(
-          'div',
-          { class: 'free-copy' },
-          chips(product),
-          el('h2', null, product.name),
-          el('p', null, product.tagline),
-          product.description ? el('p', null, product.description) : null,
-          featuresList(product, 'facts'),
-          el('div', { class: 'actions' }, actionLink(product, true)),
-          metaLine(product)
-        ),
-        el(
-          'figure',
-          { class: 'shot' },
-          el('img', { src: product.image, alt: product.imageAlt || product.name }),
-          el('figcaption', null, `${product.name} · пример`)
-        )
-      )
-    }
-
-    function cardView(product) {
+    function bannerView(product) {
+      const soon = product.status === 'soon'
+      const visual = product.image
+        ? el('img', { class: 'screen', src: product.image, alt: product.imageAlt || product.name })
+        : el('img', { class: 'mark', src: 'assets/mark-3d.svg', alt: '' })
       return el(
         'article',
-        { class: 'product' },
-        el('div', { class: 'product-head' }, el('h3', null, product.name), chips(product)),
-        el('p', { class: 'tagline' }, product.tagline),
-        product.description ? el('p', { class: 'desc' }, product.description) : null,
-        featuresList(product),
-        metaLine(product),
-        el('div', { class: 'actions' }, actionLink(product, product.kind === 'free'))
+        { class: ['banner', product.kind === 'free' ? 'is-free' : '', soon ? 'is-soon' : ''].join(' ').trim() },
+        el('div', { class: 'banner-visual' }, visual),
+        el(
+          'div',
+          { class: 'banner-body' },
+          el(
+            'div',
+            { class: 'banner-title' },
+            el('h3', null, product.name),
+            KIND_LABEL[product.kind] ? el('span', { class: `chip chip-${product.kind}` }, KIND_LABEL[product.kind]) : null,
+            soon ? el('span', { class: 'chip chip-soon' }, 'Скоро') : null
+          ),
+          el('p', { class: 'tagline' }, product.tagline),
+          product.description ? el('p', { class: 'desc' }, product.description) : null
+        ),
+        el(
+          'div',
+          { class: 'banner-cta' },
+          actionLink(product),
+          product.price || product.meta ? el('span', { class: 'price' }, [product.price, product.meta].filter(Boolean).join(' · ')) : null
+        )
       )
     }
 
     function render() {
       const visible = products.filter((product) => kind === 'all' || product.kind === kind)
-      const featured = visible.find((product) => product.featured && product.image)
-      featuredBox.replaceChildren(...(featured ? [featuredView(featured)] : []))
-      catalogBox.replaceChildren(...visible.filter((product) => product !== featured).map(cardView))
+      catalogBox.replaceChildren(...visible.map(bannerView))
       emptyNote.hidden = visible.length > 0
       for (const button of filters.querySelectorAll('button')) {
         button.setAttribute('aria-pressed', String(button.dataset.kind === kind))
