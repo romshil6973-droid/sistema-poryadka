@@ -99,12 +99,20 @@
   @media (max-width: 560px) { .top .btn { display: none; } }
 
   /* ---------- Первый экран ---------- */
-  .hero {
+  .hero { position: relative; overflow: hidden; background: var(--navy); }
+  /* Фильм о бренде идёт фоном; затемнение держит контраст заголовка */
+  .hero-film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
     background:
-      radial-gradient(circle at 0 0, rgba(53, 92, 138, 0.32), transparent 45%),
-      radial-gradient(circle at 100% 30%, rgba(212, 175, 122, 0.08), transparent 35%);
+      linear-gradient(90deg, rgba(11, 19, 33, 0.94) 0%, rgba(11, 19, 33, 0.82) 45%, rgba(11, 19, 33, 0.62) 100%),
+      linear-gradient(180deg, transparent 70%, var(--navy) 100%);
   }
   .hero .wrap {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
     gap: 56px;
@@ -175,45 +183,20 @@
   .role-card dt { color: var(--ink-muted); }
   .role-card dd { margin: 0; }
 
-  /* ---------- Фильм о бренде ---------- */
-  .film { padding-block: 0 88px; }
-  .film-frame {
-    position: relative;
-    margin: 0;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid rgba(212, 175, 122, 0.3);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-    background: var(--navy);
-    aspect-ratio: 16 / 9;
-    max-width: 100%;
-  }
-  .film-frame video { width: 100%; height: 100%; display: block; object-fit: cover; }
-  .film-controls {
-    position: absolute;
-    left: 16px;
-    bottom: 16px;
-    display: flex;
-    gap: 8px;
-  }
+  /* Управление фоновым фильмом */
+  .film-controls { position: absolute; z-index: 2; right: 24px; bottom: 20px; display: flex; gap: 8px; }
   .film-controls button {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 14px;
-    border-radius: 10px;
-    border: 1px solid rgba(199, 204, 211, 0.35);
-    background: rgba(11, 19, 33, 0.72);
-    backdrop-filter: blur(6px);
-    color: var(--text);
-    font: 600 14px/1.2 var(--font);
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--line-strong);
+    background: rgba(11, 19, 33, 0.6);
+    color: var(--muted);
+    font: 500 13px/1.2 var(--font);
     cursor: pointer;
   }
-  .film-controls button:hover { border-color: var(--gold); }
+  .film-controls button:hover { border-color: var(--gold); color: var(--text); }
   .film-controls button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-  .film-caption { margin-top: 14px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
-  .film-caption b { color: var(--text); font-weight: 600; }
-  @media (max-width: 560px) { .film { padding-block: 0 64px; } .film-controls { left: 10px; bottom: 10px; } }
+  @media (max-width: 560px) { .film-controls { right: 16px; bottom: 12px; } }
 
   /* ---------- Разделы ---------- */
   section { scroll-margin-top: 72px; }
@@ -313,7 +296,15 @@
   .banner .desc { color: var(--muted); font-size: 15px; max-width: 46em; }
   .banner-cta { display: grid; justify-items: end; gap: 8px; text-align: right; }
   .price { font-size: 13px; font-weight: 600; color: var(--muted); }
+  /* Заглушки «Скоро» компактнее доступных продуктов */
+  .banner.is-soon { grid-template-columns: 120px minmax(0, 1fr) auto; gap: 22px; padding-block: 12px; }
+  .banner.is-soon .banner-visual .mark { width: 40px; }
+  .banner.is-soon h3 { font-size: 20px; }
+  .banner.is-soon .tagline { font-size: 15px; color: var(--muted); }
+  .banner.is-soon .desc { display: none; }
   @media (max-width: 860px) {
+    .banner.is-soon { grid-template-columns: 1fr; gap: 10px; }
+    .banner.is-soon .banner-visual { display: none; }
     .banner { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
     .banner-cta { justify-items: start; text-align: left; }
   }
@@ -386,6 +377,11 @@
 
 <main id="top">
   <section class="hero">
+    <video class="hero-film" id="brand-film" src="assets/brand-film.mp4" poster="assets/brand-film-poster.jpg" autoplay muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+    <div class="film-controls">
+      <button type="button" id="film-play" aria-pressed="true">Пауза</button>
+      <button type="button" id="film-sound" aria-pressed="false">Включить звук</button>
+    </div>
     <div class="wrap">
       <div>
         <p class="eyebrow">Программа и внедрение для B2B</p>
@@ -431,19 +427,6 @@
           <dt>Документы</dt><dd>Регламент приёма заказа, положение о скидках</dd>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="film" aria-label="Фильм о бренде">
-    <div class="wrap">
-      <figure class="film-frame">
-        <video id="brand-film" src="assets/brand-film.mp4" poster="assets/brand-film-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Фильм «Система Порядка»: переговорная ночью, руководитель смотрит показатели на планшете, в конце — логотип"></video>
-        <div class="film-controls">
-          <button type="button" id="film-play" aria-pressed="true">Пауза</button>
-          <button type="button" id="film-sound" aria-pressed="false">Включить звук</button>
-        </div>
-      </figure>
-      <p class="film-caption"><b>Система Порядка</b><span>Порядок в системе — результат в бизнесе</span></p>
     </div>
   </section>
 
@@ -588,9 +571,20 @@
 </footer>
 
 <script>
-  // Фильм о бренде: сам идёт без звука; при «уменьшении движения» стоит на кадре с логотипом.
+  // Фильм о бренде идёт фоном первого экрана: без звука, по кругу.
+  // При «уменьшении движения» не запускается сам и стоит на тёмном кадре.
   (() => {
+    // С 8,3 с в ролике светлая заставка с логотипом: под белым заголовком она слепит,
+    // поэтому круг замыкается раньше.
+    const LOOP_END = 8.25
     const video = document.getElementById('brand-film')
+    video.addEventListener('timeupdate', () => {
+      if (video.currentTime >= LOOP_END) video.currentTime = 0
+    })
+    video.addEventListener('ended', () => {
+      video.currentTime = 0
+      video.play().catch(() => {})
+    })
     const play = document.getElementById('film-play')
     const sound = document.getElementById('film-sound')
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
