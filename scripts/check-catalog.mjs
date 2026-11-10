@@ -31,7 +31,36 @@ for (const [index, product] of products.entries()) {
   }
 
   if (product.tagline && product.tagline.length > 90) fail('tagline длиннее 90 знаков — на баннере не поместится в строку')
-  if (product.description && product.description.length > 180) fail('description длиннее 180 знаков — баннер раздуется')
+  if (product.description && product.description.length > 360) fail('description длиннее 360 знаков')
+  if (product.features !== undefined) {
+    if (!Array.isArray(product.features) || product.features.length < 1 || product.features.length > 4) {
+      fail('features — массив из 1–4 строк')
+    } else {
+      for (const line of product.features) {
+        if (typeof line !== 'string' || !line.trim()) fail('пустой пункт features')
+        else if (line.length > 80) fail('пункт features длиннее 80 знаков')
+      }
+    }
+  }
+  if (product.markLabel !== undefined) {
+    if (typeof product.markLabel !== 'string' || product.markLabel.length < 2 || product.markLabel.length > 4) {
+      fail('markLabel — от 2 до 4 символов')
+    }
+  }
+  if (product.accent !== undefined && (typeof product.accent !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(product.accent))) {
+    fail('accent — цвет вроде #355c8a')
+  }
+  if (product.status === 'soon' && product.action != null) {
+    const action = product.action
+    if (typeof action !== 'object' || Array.isArray(action)) fail('action должен быть объектом')
+    else {
+      if (!action.href) fail('у «скоро» с action нет action.href')
+      if (!action.label) fail('у «скоро» с action нет action.label')
+      if (action.href && !/^mailto:romshil69\.73@gmail\.com\?subject=[^&\s]+$/.test(action.href)) {
+        fail('action.href для «скоро» — только mailto:romshil69.73@gmail.com?subject=…')
+      }
+    }
+  }
   if (product.image && !existsSync(join(root, product.image))) fail(`нет файла картинки ${product.image}`)
   if (product.image && !product.imageAlt) fail('у картинки нет imageAlt (описания)')
 }

@@ -292,8 +292,13 @@
     background: linear-gradient(90deg, rgba(53, 92, 138, 0.16), rgba(255, 255, 255, 0.02) 65%);
   }
   .banner.is-free { border-color: rgba(212, 175, 122, 0.4); }
-  .banner.is-soon { border-style: dashed; background: rgba(255, 255, 255, 0.02); }
+  /* accent — необязательный цвет карточки. Щит общий, подпись markLabel отличает продукт. */
+  .banner.has-accent {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 24%, transparent), rgba(255, 255, 255, 0.02) 65%);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  }
   .banner-visual {
+    position: relative;
     aspect-ratio: 16 / 10;
     max-width: 100%;
     border-radius: 10px;
@@ -303,25 +308,54 @@
     background: radial-gradient(circle at 30% 20%, rgba(53, 92, 138, 0.55), transparent 70%), var(--navy);
     border: 1px solid var(--line);
   }
+  .banner.has-accent .banner-visual {
+    background: radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--accent) 58%, transparent), transparent 70%), var(--navy);
+  }
   .banner-visual .screen { width: 100%; height: 100%; object-fit: cover; object-position: left top; }
   .banner-visual .mark { width: 72px; }
-  .banner.is-soon .banner-visual .mark { filter: grayscale(1); opacity: 0.45; }
+  .mark-label {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    transform: translate(-50%, -50%);
+    min-width: 2.6em;
+    padding: 3px 7px;
+    border-radius: 7px;
+    background: rgba(11, 19, 33, 0.86);
+    color: color-mix(in srgb, var(--accent, var(--gold-light)) 68%, white);
+    border: 1px solid var(--accent, var(--gold));
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-align: center;
+  }
   .banner-body { display: grid; gap: 8px; min-width: 0; }
   .banner-title { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .banner h3 { font-size: 24px; color: #fff; }
   .banner .tagline { color: var(--text); font-size: 17px; }
   .banner .desc { color: var(--muted); font-size: 15px; max-width: 46em; }
+  .banner-features { margin: 2px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+  .banner-features li {
+    position: relative;
+    padding-left: 16px;
+    color: var(--text);
+    font-size: 14.5px;
+    line-height: 1.45;
+  }
+  .banner-features li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent, var(--gold));
+  }
   .banner-cta { display: grid; justify-items: end; gap: 8px; text-align: right; }
   .price { font-size: 13px; font-weight: 600; color: var(--muted); }
-  /* Заглушки «Скоро» компактнее доступных продуктов */
-  .banner.is-soon { grid-template-columns: 120px minmax(0, 1fr) auto; gap: 22px; padding-block: 12px; }
-  .banner.is-soon .banner-visual .mark { width: 40px; }
-  .banner.is-soon h3 { font-size: 20px; }
-  .banner.is-soon .tagline { font-size: 15px; color: var(--muted); }
-  .banner.is-soon .desc { display: none; }
   @media (max-width: 860px) {
-    .banner.is-soon { grid-template-columns: 1fr; gap: 10px; }
-    .banner.is-soon .banner-visual { display: none; }
     .banner { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
     .banner-cta { justify-items: start; text-align: left; }
   }
@@ -337,7 +371,7 @@
   }
   .chip-free { color: var(--gold); }
   .chip-paid { color: var(--steel-light); }
-  .chip-soon { color: var(--muted); }
+  .chip-soon { color: color-mix(in srgb, var(--accent, var(--steel-light)) 62%, #fff); }
   .btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
 
   /* Тарифы раннего доступа */
@@ -793,30 +827,48 @@
 
     function actionLink(product) {
       const soon = product.status === 'soon'
-      const href = soon ? null : product.action.href
+      const href = product.action && product.action.href
+      // Без action карточка «скоро» остаётся с неактивной кнопкой «Скоро».
+      const inactive = soon && !href
       const external = Boolean(href) && /^https?:/i.test(href)
       return el(
         'a',
         {
           class: product.kind === 'free' && !soon ? 'btn btn-gold' : 'btn',
-          href,
-          'aria-disabled': soon ? 'true' : null,
+          href: inactive ? null : href,
+          'aria-disabled': inactive ? 'true' : null,
           target: external ? '_blank' : null,
           rel: external ? 'noopener' : null
         },
-        soon ? 'Скоро' : (product.action && product.action.label) || DEFAULT_ACTION[product.kind]
+        inactive ? 'Скоро' : (product.action && product.action.label) || DEFAULT_ACTION[product.kind]
       )
+    }
+
+    function bannerVisual(product) {
+      const picture = product.image
+        ? el('img', { class: 'screen', src: product.image, alt: product.imageAlt || product.name })
+        : el('img', { class: 'mark', src: 'assets/mark-3d.svg', alt: '' })
+      const label = typeof product.markLabel === 'string' && product.markLabel
+        ? el('span', { class: 'mark-label', 'aria-hidden': 'true' }, product.markLabel)
+        : null
+      return el('div', { class: 'banner-visual' }, picture, label)
+    }
+
+    function featureList(product) {
+      if (!Array.isArray(product.features) || product.features.length === 0) return null
+      return el('ul', { class: 'banner-features' }, product.features.map((line) => el('li', null, line)))
     }
 
     function bannerView(product) {
       const soon = product.status === 'soon'
-      const visual = product.image
-        ? el('img', { class: 'screen', src: product.image, alt: product.imageAlt || product.name })
-        : el('img', { class: 'mark', src: 'assets/mark-3d.svg', alt: '' })
+      const accent = typeof product.accent === 'string' && /^#[0-9a-fA-F]{6}$/.test(product.accent) ? product.accent : ''
       return el(
         'article',
-        { class: ['banner', product.kind === 'free' ? 'is-free' : '', soon ? 'is-soon' : ''].join(' ').trim() },
-        el('div', { class: 'banner-visual' }, visual),
+        {
+          class: ['banner', product.kind === 'free' ? 'is-free' : '', soon ? 'is-soon' : '', accent ? 'has-accent' : ''].filter(Boolean).join(' '),
+          style: accent ? `--accent:${accent}` : null
+        },
+        bannerVisual(product),
         el(
           'div',
           { class: 'banner-body' },
@@ -825,10 +877,11 @@
             { class: 'banner-title' },
             el('h3', null, product.name),
             KIND_LABEL[product.kind] ? el('span', { class: `chip chip-${product.kind}` }, KIND_LABEL[product.kind]) : null,
-            soon ? el('span', { class: 'chip chip-soon' }, 'Скоро') : null
+            soon ? el('span', { class: 'chip chip-soon' }, 'В разработке') : null
           ),
           el('p', { class: 'tagline' }, product.tagline),
-          product.description ? el('p', { class: 'desc' }, product.description) : null
+          product.description ? el('p', { class: 'desc' }, product.description) : null,
+          featureList(product)
         ),
         el(
           'div',
