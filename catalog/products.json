@@ -14,40 +14,31 @@
       "imageAlt": "Окно программы «Оргструктура»: схема подчинения из семи карточек сотрудников",
       "action": {
         "label": "Скачать бесплатно",
-        "href": "https://github.com/romshil6973-droid/sistema-poryadka/releases/download/orgstruktura-v1.0.0/Orgstruktura-Setup-1.0.0.exe"
+        "href": "https://github.com/romshil6973-droid/sistema-poryadka/releases/latest"
       }
     },
     {
       "id": "sistema-poryadka",
       "name": "Система Порядка",
       "kind": "paid",
-      "price": "Пилот по запросу",
+      "price": "Стандарт 14 900 ₽ · Бизнес 24 900 ₽",
       "status": "available",
       "tagline": "Оргструктура, процессы, ответственность, KPI и документы в одной модели",
       "description": "Матрица «Напросвет», должностные инструкции из модели, анализ изменений. На вашем ПК или сервере.",
-      "meta": "",
+      "meta": "старт продаж — после пилота",
       "image": "",
       "imageAlt": "",
       "action": {
-        "label": "Запросить",
-        "href": "#contact"
+        "label": "Записаться на ранний доступ",
+        "href": "#offer"
       }
     },
     {
       "id": "skillup",
       "name": "SkillUp",
-      "kind": "paid",
-      "price": "Тарифы «Офис» и «Сервер»",
-      "status": "available",
+      "status": "soon",
       "tagline": "Проверка знаний отдела продаж: регламенты, тесты и прогресс",
-      "description": "Материалы с видео и текстом, тесты с порогом 80 %, сроки и панель куратора. Не создаёт базу персональных данных: вход по никнейму.",
-      "meta": "",
-      "image": "",
-      "imageAlt": "",
-      "action": {
-        "label": "Запросить",
-        "href": "#contact"
-      }
+      "description": "Материалы с видео и текстом, тесты с порогом 80 %, сроки и панель куратора. Не создаёт базу персональных данных: вход по никнейму."
     },
     {
       "id": "zaslon",
