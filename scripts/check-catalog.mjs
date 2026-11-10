@@ -56,8 +56,8 @@ for (const [index, product] of products.entries()) {
     else {
       if (!action.href) fail('у «скоро» с action нет action.href')
       if (!action.label) fail('у «скоро» с action нет action.label')
-      if (action.href && !/^mailto:romshil69\.73@gmail\.com\?subject=[^&\s]+$/.test(action.href)) {
-        fail('action.href для «скоро» — только mailto:romshil69.73@gmail.com?subject=…')
+      if (action.href && !/^mailto:R\.SH\.69\.73@yandex\.ru\?subject=[^&\s]+$/.test(action.href)) {
+        fail('action.href для «скоро» — только mailto:R.SH.69.73@yandex.ru?subject=…')
       }
     }
   }
