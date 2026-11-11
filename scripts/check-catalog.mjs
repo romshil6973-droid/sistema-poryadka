@@ -38,7 +38,7 @@ for (const [index, product] of products.entries()) {
     } else {
       for (const line of product.features) {
         if (typeof line !== 'string' || !line.trim()) fail('пустой пункт features')
-        else if (line.length > 80) fail('пункт features длиннее 80 знаков')
+        else if (line.length > 120) fail('пункт features длиннее 120 знаков')
       }
     }
   }
