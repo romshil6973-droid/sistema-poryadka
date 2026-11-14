@@ -50,6 +50,10 @@ for (const [index, product] of products.entries()) {
   if (product.accent !== undefined && (typeof product.accent !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(product.accent))) {
     fail('accent — цвет вроде #355c8a')
   }
+  if (product.page !== undefined) {
+    const pageOk = typeof product.page === 'string' && product.page.startsWith('https://romshil6973-droid.github.io/sistema-poryadka/')
+    if (!pageOk) fail('page — полный https-адрес страницы на витрине')
+  }
   if (product.status === 'soon' && product.action != null) {
     const action = product.action
     if (typeof action !== 'object' || Array.isArray(action)) fail('action должен быть объектом')

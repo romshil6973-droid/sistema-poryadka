@@ -470,6 +470,7 @@
       <a href="#orgstruktura">Оргструктура</a>
       <a href="#offer">Ранний доступ</a>
       <a href="#products">Продукты</a>
+      <a href="magazin/">Для магазина</a>
       <a href="#contact">Контакт</a>
     </nav>
     <a class="btn btn-gold" href="#orgstruktura">Скачать бесплатно</a>
@@ -854,6 +855,11 @@
       return missing.length === 0
     }
 
+    function detailsLink(product) {
+      if (typeof product.page !== 'string' || !product.page.trim()) return null
+      return el('a', { class: 'text-link', href: product.page }, 'Подробнее')
+    }
+
     function actionLink(product) {
       const soon = product.status === 'soon'
       const href = product.action && product.action.href
@@ -916,7 +922,8 @@
           'div',
           { class: 'banner-cta' },
           actionLink(product),
-          product.price || product.meta ? el('span', { class: 'price' }, [product.price, product.meta].filter(Boolean).join(' · ')) : null
+          product.price || product.meta ? el('span', { class: 'price' }, [product.price, product.meta].filter(Boolean).join(' · ')) : null,
+          detailsLink(product)
         )
       )
     }
