@@ -453,8 +453,11 @@
   @media (max-width: 820px) { .contact { grid-template-columns: 1fr; } }
 
   footer { border-top: 1px solid rgba(212, 175, 122, 0.18); padding-block: 28px; font-size: 13px; color: var(--muted); }
-  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: center; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 20px; align-items: center; }
   footer .brand img { width: 24px; }
+  footer .legal-links { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+  footer .legal-links a { color: var(--gold); text-decoration: none; }
+  footer .legal-links a:hover { color: var(--gold-light); }
 </style>
 </head>
 <body>
@@ -769,6 +772,11 @@
   <div class="wrap">
     <a class="brand" href="#top"><img src="assets/mark-flat.svg" alt="" width="24" height="26" /><div><b>Система Порядка</b></div></a>
     <a href="mailto:R.SH.69.73@yandex.ru">R.SH.69.73@yandex.ru</a>
+    <nav class="legal-links" aria-label="Документы">
+      <a href="oferta/">Оферта</a>
+      <a href="privacy/">Политика конфиденциальности</a>
+      <a href="soglasie/">Согласие на рассылку</a>
+    </nav>
     <span>© 2026 Система Порядка</span>
     <span>Шилов Роман Станиславович, ИНН 690301042738</span>
   </div>
