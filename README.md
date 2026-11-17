@@ -32,4 +32,6 @@
 
 Витрина продуктов собирается из `catalog/products.json`. Как добавить продукт — [CATALOG.md](CATALOG.md). Проверка: `node scripts/check-catalog.mjs`.
 
+`statusLabel` — короткая подпись бейджа у карточки «скоро». `hidden: true` оставляет карточку в файле, но не показывает её на витрине.
+
 GitHub Pages отдаёт корень ветки `main`. Своего workflow в репозитории нет: после мёржа PR и пуша в `main` сайт обновляет встроенный `pages-build-deployment`.

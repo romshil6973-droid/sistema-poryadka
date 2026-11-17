@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Оргструктура компании: программа, матрица RACI и должностные инструкции — Система Порядка</title>
-<meta name="description" content="Программа для оргструктуры компании: схема подчинения, матрица RACI и должностные инструкции. Бесплатная «Оргструктура» для Windows работает без интернета. «Система Порядка» — ранний доступ, заявка на почту." />
+<title>Система Порядка — программы для магазина и компании</title>
+<meta name="description" content="Офлайн-программы «Системы Порядка» для магазина и компании. Конструктор ценников — скоро в продаже, калькулятор — скоро. Почта: R.SH.69.73@yandex.ru." />
 <link rel="canonical" href="https://romshil6973-droid.github.io/sistema-poryadka/" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="ru_RU" />
 <meta property="og:url" content="https://romshil6973-droid.github.io/sistema-poryadka/" />
-<meta property="og:title" content="Оргструктура компании: программа, матрица RACI и должностные инструкции" />
-<meta property="og:description" content="Бесплатная «Оргструктура» для схемы компании. «Система Порядка» — должностные инструкции, матрица RACI, KPI и регламенты. Заявка на ранний доступ по почте." />
+<meta property="og:title" content="Система Порядка — программы для магазина и компании" />
+<meta property="og:description" content="Офлайн-программы «Системы Порядка» для магазина и компании. Конструктор ценников — скоро в продаже, калькулятор — скоро. Почта: R.SH.69.73@yandex.ru." />
 <meta property="og:image" content="https://romshil6973-droid.github.io/sistema-poryadka/assets/og-image.png" />
 <meta name="theme-color" content="#0B1321" />
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
@@ -244,6 +244,7 @@
 
   /* ---------- Разделы ---------- */
   section { scroll-margin-top: 72px; }
+  @media (max-width: 900px) { section { scroll-margin-top: 168px; } }
   .band { padding-block: 88px; border-top: 1px solid var(--line); }
   .band.raised { background: var(--navy-raised); }
   .section-head { max-width: 760px; display: grid; gap: 14px; }
@@ -469,11 +470,9 @@
       <div><b>Система Порядка</b><span>Структура управления результатом</span></div>
     </a>
     <nav class="nav" aria-label="Разделы">
-      <a href="#problem">Проблема</a>
-      <a href="#orgstruktura">Оргструктура</a>
-      <a href="#offer">Ранний доступ</a>
-      <a href="#products">Продукты</a>
+      <a href="#products">Программы</a>
       <a href="magazin/">Для магазина</a>
+      <a href="#orgstruktura">Оргструктура</a>
       <a href="#contact">Контакт</a>
     </nav>
     <a class="btn btn-gold" href="#orgstruktura">Скачать бесплатно</a>
@@ -490,11 +489,11 @@
     <div class="wrap">
       <div>
         <p class="eyebrow">Программы для собственников и руководителей</p>
-        <h1>Программа для оргструктуры компании: должности, матрица RACI и инструкции в одном месте</h1>
-        <p class="lead">Бесплатная «Оргструктура» рисует схему подчинения. «Система Порядка» собирает по ней должностные инструкции, матрицу RACI, KPI и регламенты.</p>
+        <h1>Программы «Системы Порядка» для магазина и управления компанией</h1>
+        <p class="lead">«Система Порядка» — офлайн-программы для розничного магазина и для порядка в компании. Данные остаются на вашем компьютере или сервере и не уходят к разработчику.</p>
         <div class="actions">
-          <a class="btn btn-gold" href="#orgstruktura">Скачать Оргструктуру бесплатно</a>
-          <a class="btn" href="#offer">Ранний доступ к Системе Порядка</a>
+          <a class="btn btn-gold" href="#products">Смотреть программы</a>
+          <a class="btn" href="https://github.com/romshil6973-droid/sistema-poryadka/releases/latest" target="_blank" rel="noopener">Скачать «Оргструктуру»</a>
         </div>
         <p class="hero-note">Программа работает без интернета, данные не уходят к разработчику.</p>
       </div>
@@ -535,11 +534,67 @@
     </div>
   </section>
 
+  <section class="band raised" id="products">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Продукты</p>
+        <h2>Программы «Системы Порядка»</h2>
+        <p>Начните с того, что нужно сейчас. Платные программы подключайте, когда до них дорастёте.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Какие продукты показать" id="filters" hidden>
+        <button type="button" data-kind="all" aria-pressed="true">Все<b data-count="all"></b></button>
+        <button type="button" data-kind="free" aria-pressed="false">Бесплатные<b data-count="free"></b></button>
+        <button type="button" data-kind="paid" aria-pressed="false">Платные<b data-count="paid"></b></button>
+      </div>
+      <div class="banners" id="catalog"></div>
+      <p class="catalog-empty" id="catalog-empty" hidden>В этом разделе пока пусто.</p>
+      <noscript>
+        <div class="banners">
+          <article class="banner is-free">
+            <div class="banner-body">
+              <h3>Оргструктура</h3>
+              <p class="tagline">Схема подчинения за вечер и печать на лист А4</p>
+              <p class="desc">Бесплатно. Windows 10 и 11, без интернета и регистрации.</p>
+            </div>
+            <div class="banner-cta">
+              <a class="btn btn-gold" href="https://github.com/romshil6973-droid/sistema-poryadka/releases/latest" target="_blank" rel="noopener">Скачать бесплатно</a>
+            </div>
+          </article>
+          <article class="banner">
+            <div class="banner-body">
+              <h3>Система Порядка</h3>
+              <p class="tagline">Должностные инструкции, матрица RACI, KPI и регламенты</p>
+              <p class="desc">Стандарт 14 900 ₽ · Бизнес 24 900 ₽. Старт продаж — после пилота.</p>
+            </div>
+            <div class="banner-cta">
+              <a class="btn" href="mailto:R.SH.69.73@yandex.ru?subject=%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0%20%D0%9F%D0%BE%D1%80%D1%8F%D0%B4%D0%BA%D0%B0%20%E2%80%94%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D1%80%D0%B0%D0%BD%D0%BD%D0%B8%D0%B9%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF">Записаться на ранний доступ</a>
+            </div>
+          </article>
+        </div>
+      </noscript>
+    </div>
+  </section>
+
+  <section class="band" id="dlya-magazina">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Розница</p>
+        <h2>Для магазина</h2>
+        <p>«Конструктор ценников» печатает ценники из Excel на A4 и термопринтер, скоро в продаже.</p>
+        <p>«Калькулятор магазина» считает средний чек, прибыль и срок возврата вложений, скоро в продаже. Подробности и цена — в разделе для магазина.</p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-gold" href="magazin/">Перейти в раздел для магазина</a>
+      </div>
+    </div>
+  </section>
+
   <section class="band raised" id="problem">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">Проблема</p>
-        <h2>Документов в компаниях хватает. Беда в том, что роли, процессы и ответственность живут отдельно</h2>
+        <p class="eyebrow">Оргструктура</p>
+        <h2>Оргструктура и ответственность в одной модели</h2>
+        <p>Документов в компаниях хватает. Беда в том, что роли, процессы и ответственность живут отдельно.</p>
         <p>Оргструктура — в одной схеме, процессы — в презентациях, инструкции — в Word, штатное — в Excel. Всё формально есть и быстро расходится.</p>
       </div>
       <ul class="pains">
@@ -601,7 +656,7 @@
   <section class="band" id="orgstruktura">
     <div class="wrap free">
       <div class="free-copy">
-        <p class="eyebrow">Бесплатно · Windows</p>
+        <p class="eyebrow">Бесплатно в тестовом режиме · Windows</p>
         <h2>Бесплатная программа „Оргструктура“ для схемы компании</h2>
         <p>Схема подчинения и печать на лист А4. Файлы остаются на этом компьютере.</p>
         <ul class="facts">
@@ -665,47 +720,6 @@
     </div>
   </section>
 
-  <section class="band raised" id="products">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Продукты</p>
-        <h2>Программы «Системы Порядка»</h2>
-        <p>Начните с бесплатных. Платные подключайте, когда компания дорастёт до них.</p>
-      </div>
-      <div class="filters" role="group" aria-label="Какие продукты показать" id="filters" hidden>
-        <button type="button" data-kind="all" aria-pressed="true">Все<b data-count="all"></b></button>
-        <button type="button" data-kind="free" aria-pressed="false">Бесплатные<b data-count="free"></b></button>
-        <button type="button" data-kind="paid" aria-pressed="false">Платные<b data-count="paid"></b></button>
-      </div>
-      <div class="banners" id="catalog"></div>
-      <p class="catalog-empty" id="catalog-empty" hidden>В этом разделе пока пусто.</p>
-      <noscript>
-        <div class="banners">
-          <article class="banner is-free">
-            <div class="banner-body">
-              <h3>Оргструктура</h3>
-              <p class="tagline">Схема подчинения за вечер и печать на лист А4</p>
-              <p class="desc">Бесплатно. Windows 10 и 11, без интернета и регистрации.</p>
-            </div>
-            <div class="banner-cta">
-              <a class="btn btn-gold" href="https://github.com/romshil6973-droid/sistema-poryadka/releases/latest" target="_blank" rel="noopener">Скачать бесплатно</a>
-            </div>
-          </article>
-          <article class="banner">
-            <div class="banner-body">
-              <h3>Система Порядка</h3>
-              <p class="tagline">Должностные инструкции, матрица RACI, KPI и регламенты</p>
-              <p class="desc">Стандарт 14 900 ₽ · Бизнес 24 900 ₽. Старт продаж — после пилота.</p>
-            </div>
-            <div class="banner-cta">
-              <a class="btn" href="mailto:R.SH.69.73@yandex.ru?subject=%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0%20%D0%9F%D0%BE%D1%80%D1%8F%D0%B4%D0%BA%D0%B0%20%E2%80%94%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D1%80%D0%B0%D0%BD%D0%BD%D0%B8%D0%B9%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF">Записаться на ранний доступ</a>
-            </div>
-          </article>
-        </div>
-      </noscript>
-    </div>
-  </section>
-
   <section class="band" id="faq">
     <div class="wrap">
       <div class="section-head">
@@ -715,7 +729,7 @@
       <dl class="faq">
         <div>
           <dt>Бесплатно ли «Оргструктура»?</dt>
-          <dd>Да, программа бесплатная.</dd>
+          <dd>Да. Сейчас программа бесплатна в тестовом режиме.</dd>
         </div>
         <div>
           <dt>Работает ли без интернета?</dt>
@@ -775,7 +789,6 @@
     <nav class="legal-links" aria-label="Документы">
       <a href="oferta/">Оферта</a>
       <a href="privacy/">Политика конфиденциальности</a>
-      <a href="soglasie/">Согласие на рассылку</a>
     </nav>
     <span>© 2026 Система Порядка</span>
     <span>Шилов Роман Станиславович, ИНН 690301042738</span>
@@ -921,7 +934,7 @@
             { class: 'banner-title' },
             el('h3', null, product.name),
             KIND_LABEL[product.kind] ? el('span', { class: `chip chip-${product.kind}` }, KIND_LABEL[product.kind]) : null,
-            soon ? el('span', { class: 'chip chip-soon' }, 'В разработке') : null
+            soon ? el('span', { class: 'chip chip-soon' }, (typeof product.statusLabel === 'string' && product.statusLabel.trim()) || 'В разработке') : null
           ),
           el('p', { class: 'tagline' }, product.tagline),
           product.description ? el('p', { class: 'desc' }, product.description) : null,
@@ -959,7 +972,7 @@
         return response.json()
       })
       .then((data) => {
-        products = (data.products || []).filter(isValid)
+        products = (data.products || []).filter((product) => product.hidden !== true).filter(isValid)
         const count = (which) => products.filter((product) => which === 'all' || product.kind === which).length
         for (const badge of filters.querySelectorAll('[data-count]')) badge.textContent = count(badge.dataset.count)
         filters.hidden = products.length === 0
