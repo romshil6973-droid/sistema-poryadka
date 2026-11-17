@@ -5,9 +5,16 @@ import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
-const { products } = JSON.parse(readFileSync(join(root, 'catalog', 'products.json'), 'utf8'))
+const catalogPath = join(root, 'catalog', 'products.json')
+const catalogRaw = readFileSync(catalogPath, 'utf8')
+const { products } = JSON.parse(catalogRaw)
 
 const errors = []
+const forbidden = ['prodamus', 'metrika', 'mc.yandex', '<form', '745']
+const rawLower = catalogRaw.toLowerCase()
+for (const needle of forbidden) {
+  if (rawLower.includes(needle)) errors.push(`в каталоге есть запрещённое «${needle}»`)
+}
 const ids = new Set()
 
 for (const [index, product] of products.entries()) {
@@ -47,6 +54,17 @@ for (const [index, product] of products.entries()) {
       fail('markLabel — от 2 до 4 символов')
     }
   }
+  if (product.statusLabel !== undefined) {
+    if (typeof product.statusLabel !== 'string' || product.statusLabel.length < 2 || product.statusLabel.length > 30) {
+      fail('statusLabel — строка от 2 до 30 знаков')
+    }
+  }
+  if (product.hidden !== undefined && typeof product.hidden !== 'boolean') {
+    fail('hidden — логическое значение')
+  }
+  if (typeof product.price === 'string' && product.price.includes('₽') && !['free', 'paid'].includes(product.kind)) {
+    fail('если в цене есть ₽, укажите kind: free или paid')
+  }
   if (product.accent !== undefined && (typeof product.accent !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(product.accent))) {
     fail('accent — цвет вроде #355c8a')
   }
@@ -74,6 +92,7 @@ if (errors.length) {
   process.exit(1)
 }
 const count = (fn) => products.filter(fn).length
+const hidden = count((p) => p.hidden === true)
 console.log(
-  `Каталог в порядке: ${products.length} баннеров (бесплатных ${count((p) => p.kind === 'free')}, платных ${count((p) => p.kind === 'paid')}, «скоро» ${count((p) => p.status === 'soon')})`
+  `Каталог в порядке: ${products.length} баннеров, на витрине ${products.length - hidden}, скрытых ${hidden} (бесплатных ${count((p) => p.kind === 'free')}, платных ${count((p) => p.kind === 'paid')}, «скоро» ${count((p) => p.status === 'soon')})`
 )

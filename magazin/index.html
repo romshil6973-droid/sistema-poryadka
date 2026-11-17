@@ -4,13 +4,13 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Программа для печати ценников | Система Порядка</title>
-<meta name="description" content="Программа для печати ценников из Excel на A4 и термопринтер. Работает без интернета, для Windows 10 и 11. 1 490 ₽ до 31.01.2027, лицензия навсегда." />
+<meta name="description" content="Программа для печати ценников из Excel на A4 и термопринтер. Офлайн, Windows 10 и 11. 1 490 ₽ до 31.01.2027, лицензия навсегда. Калькулятор магазина — скоро." />
 <link rel="canonical" href="https://romshil6973-droid.github.io/sistema-poryadka/magazin/" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="ru_RU" />
 <meta property="og:url" content="https://romshil6973-droid.github.io/sistema-poryadka/magazin/" />
 <meta property="og:title" content="Программа для печати ценников | Система Порядка" />
-<meta property="og:description" content="Программа для печати ценников из Excel на A4 и термопринтер. Работает без интернета, для Windows 10 и 11. 1 490 ₽ до 31.01.2027, лицензия навсегда." />
+<meta property="og:description" content="Программа для печати ценников из Excel на A4 и термопринтер. Офлайн, Windows 10 и 11. 1 490 ₽ до 31.01.2027, лицензия навсегда. Калькулятор магазина — скоро." />
 <meta property="og:image" content="https://romshil6973-droid.github.io/sistema-poryadka/assets/og-image.png" />
 <meta name="theme-color" content="#0B1321" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
@@ -244,6 +244,7 @@
 
   /* ---------- Разделы ---------- */
   section { scroll-margin-top: 72px; }
+  @media (max-width: 900px) { section { scroll-margin-top: 168px; } }
   .band { padding-block: 88px; border-top: 1px solid var(--line); }
   .band.raised { background: var(--navy-raised); }
   .section-head { max-width: 760px; display: grid; gap: 14px; }
@@ -548,11 +549,9 @@
       <div><b>Система Порядка</b><span>Структура управления результатом</span></div>
     </a>
     <nav class="nav" aria-label="Разделы">
-      <a href="../#problem">Проблема</a>
-      <a href="../#orgstruktura">Оргструктура</a>
-      <a href="../#offer">Ранний доступ</a>
-      <a href="../#products">Продукты</a>
+      <a href="../#products">Программы</a>
       <a href="./" aria-current="page">Для магазина</a>
+      <a href="../#orgstruktura">Оргструктура</a>
       <a href="../#contact">Контакт</a>
     </nav>
     <a class="btn btn-gold" href="../#orgstruktura">Скачать бесплатно</a>
@@ -568,7 +567,7 @@
         <span>Для магазина</span>
       </nav>
       <h1>Система Порядка для магазина</h1>
-      <p class="lead">Программы «Системы Порядка» для розничного магазина. Главное сейчас — «Конструктор ценников»: печать из Excel на лист A4 и термопринтер. Калькулятор магазина и сбор цен конкурентов — в разработке.</p>
+      <p class="lead">Программы «Системы Порядка» для розничного магазина. Главное сейчас — «Конструктор ценников»: печать из Excel на лист A4 и термопринтер, в продаже с 09.12.2026. «Калькулятор магазина» — отдельная программа, скоро в продаже.</p>
     </div>
   </section>
 
@@ -579,9 +578,9 @@
         <p>Программа для печати ценников из Excel на A4 и термопринтер. Офлайн-программа для Windows 10 и 11 от «Системы Порядка». 1 490 ₽ до 31.01.2027: лицензия навсегда, обновления — год бесплатно.</p>
       </div>
       <div class="offer-cta">
-        <p class="tariff-flag offer-plaque">Ранний доступ до 09.12.2026</p>
+        <p class="tariff-flag offer-plaque">В продаже с 09.12.2026</p>
         <div class="actions">
-          <a class="btn btn-gold" href="mailto:R.SH.69.73@yandex.ru?subject=%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80%20%D1%86%D0%B5%D0%BD%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%E2%80%94%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D1%80%D0%B0%D0%BD%D0%BD%D0%B8%D0%B9%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF">Написать на почту</a>
+          <a class="btn btn-gold" href="mailto:R.SH.69.73@yandex.ru?subject=%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80%20%D1%86%D0%B5%D0%BD%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%E2%80%94%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81">Написать на почту</a>
         </div>
       </div>
       <p class="note">Загрузите список товаров с ценами — напечатайте ценники на обычном принтере или термонаклейки. Данные никуда не отправляются.</p>
@@ -687,11 +686,10 @@
           <li>До 31.01.2027 лицензия на один компьютер стоит <strong>1 490 ₽</strong>, затем <strong>1 900 ₽</strong>.</li>
           <li>Каждый дополнительный компьютер — <strong>+600 ₽</strong>.</li>
           <li>Лицензия навсегда, обновления — год бесплатно.</li>
-          <li>Оплата — онлайн на сайте, ключ отправим на почту вручную.</li>
+          <li>С 09.12.2026 — оплата онлайн, ключ отправим на почту вручную.</li>
         </ul>
-        <p><strong>До 09.12.2026 — ранний доступ.</strong> Напишите на почту, и мы подскажем, как получить программу.</p>
         <div class="actions">
-          <a class="btn btn-gold" href="mailto:R.SH.69.73@yandex.ru?subject=%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80%20%D1%86%D0%B5%D0%BD%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%E2%80%94%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D1%80%D0%B0%D0%BD%D0%BD%D0%B8%D0%B9%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF">Написать на почту</a>
+          <a class="btn btn-gold" href="mailto:R.SH.69.73@yandex.ru?subject=%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80%20%D1%86%D0%B5%D0%BD%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%E2%80%94%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81">Написать на почту</a>
         </div>
         <p>Вопросы после оплаты — на ту же почту: <a href="mailto:R.SH.69.73@yandex.ru">R.SH.69.73@yandex.ru</a>.</p>
       </div>
@@ -733,7 +731,7 @@
           </div>
           <div>
             <dt>Как купить программу?</dt>
-            <dd>До 09.12.2026 действует ранний доступ: напишите на <a href="mailto:R.SH.69.73@yandex.ru">R.SH.69.73@yandex.ru</a>. С 09.12.2026 — оплата онлайн, ключ отправим на почту вручную.</dd>
+            <dd>Напишите на <a href="mailto:R.SH.69.73@yandex.ru">R.SH.69.73@yandex.ru</a>. С 09.12.2026 — оплата онлайн, ключ отправим на почту вручную.</dd>
           </div>
           <div>
             <dt>Windows показывает предупреждение SmartScreen. Это нормально?</dt>
@@ -743,43 +741,43 @@
       </div>
 
       <div class="subblock">
-        <p>Загрузите список товаров с ценами из Excel — напечатайте ценники на A4 или термопринтере. Офлайн-программа для Windows. 1 490 ₽ до 31.01.2027: лицензия навсегда, обновления — год бесплатно.</p>
-        <p>До 09.12.2026 — ранний доступ. Напишите нам, и мы подскажем, как получить программу.</p>
+        <p>Загрузите список товаров с ценами из Excel — напечатайте ценники на A4 или термопринтере. Офлайн-программа для Windows. 1 490 ₽ до 31.01.2027: лицензия навсегда, обновления — год бесплатно. В продаже с 09.12.2026.</p>
         <div class="actions">
-          <a class="btn btn-gold" href="mailto:R.SH.69.73@yandex.ru?subject=%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80%20%D1%86%D0%B5%D0%BD%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%E2%80%94%20%D0%B7%D0%B0%D1%8F%D0%B2%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D1%80%D0%B0%D0%BD%D0%BD%D0%B8%D0%B9%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF">Написать на почту</a>
+          <a class="btn btn-gold" href="mailto:R.SH.69.73@yandex.ru?subject=%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80%20%D1%86%D0%B5%D0%BD%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%E2%80%94%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81">Написать на почту</a>
         </div>
         <p class="signoff"><strong>«Система Порядка»</strong><a href="mailto:R.SH.69.73@yandex.ru">R.SH.69.73@yandex.ru</a></p>
       </div>
     </div>
   </section>
 
-  <section class="band raised">
+  <section class="band raised" id="kalkulyator-magazina">
     <div class="wrap">
       <div class="section-head">
-        <h2>Скоро в «Системе Порядка для магазина»</h2>
-        <p>Набор программ для тех, кто открывает магазин. Калькулятор показывает средний чек, прибыль и срок возврата вложений, а сборщик цен показывает, почём тот же товар у конкурентов. Работает на вашем компьютере.</p>
+        <h2>Калькулятор магазина</h2>
+        <p>«Калькулятор магазина» — отдельная программа «Системы Порядка» для тех, кто открывает розничную точку или пересчитывает уже работающую. Вводите ежемесячные расходы и стартовые вложения, задаёте выручку, наценку и число продаж — программа показывает средний чек, прибыль в месяц и срок возврата вложений. Расчёт можно сохранить и выгрузить в Excel. Работает на вашем компьютере.</p>
       </div>
       <div class="status-row">
-        <span class="chip chip-soon">В разработке</span>
+        <span class="chip chip-soon">Скоро в продаже</span>
       </div>
-      <div class="split soon-cols">
-        <article>
-          <h3>Калькулятор магазина</h3>
-          <ul class="plain">
-            <li>Калькулятор магазина: средний чек, прибыль, срок возврата вложений.</li>
-            <li>Выгрузка расчётов и цен в Excel.</li>
-          </ul>
-        </article>
-        <article>
-          <h3>Сбор цен конкурентов</h3>
-          <ul class="plain">
-            <li>Сбор цен с публичных сайтов конкурентов и история цен.</li>
-            <li>Выгрузка расчётов и цен в Excel.</li>
-          </ul>
-        </article>
+      <div class="subblock">
+        <h3>Что считает программа</h3>
+        <ul class="plain">
+          <li>Восемь статей ежемесячных расходов и поле стартовых вложений.</li>
+          <li>Сценарии по выручке, наценке и числу продаж.</li>
+          <li>Средний чек, прибыль в месяц, срок возврата вложений.</li>
+          <li>История расчётов и выгрузка в Excel.</li>
+        </ul>
       </div>
+      <div class="subblock">
+        <h3>Цена и статус</h3>
+        <ul class="plain">
+          <li>990 ₽ за компьютер, год обновлений бесплатно, продление обновлений — 50 % от цены.</li>
+          <li>Скоро в продаже.</li>
+        </ul>
+      </div>
+      <p>Программа считает по тем цифрам, которые вы ввели, и по упрощённой модели одного месяца. Это не гарантия прибыли и не замена консультации бухгалтера. Налоги, кредиты и полный бизнес-план программа не составляет.</p>
       <div class="actions">
-        <a class="btn" href="mailto:R.SH.69.73@yandex.ru?subject=%D0%A1%D1%82%D0%B0%D1%80%D1%82%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0%20%E2%80%94%20%D1%81%D0%BE%D0%BE%D0%B1%D1%89%D0%B8%D1%82%D0%B5%20%D0%BE%20%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B5">Сообщить о запуске</a>
+        <a class="btn" href="mailto:R.SH.69.73@yandex.ru?subject=%D0%9A%D0%B0%D0%BB%D1%8C%D0%BA%D1%83%D0%BB%D1%8F%D1%82%D0%BE%D1%80%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0%20%E2%80%94%20%D1%81%D0%BE%D0%BE%D0%B1%D1%89%D0%B8%D1%82%D0%B5%20%D0%BE%20%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B5">Сообщить о запуске</a>
       </div>
     </div>
   </section>
@@ -788,7 +786,7 @@
     <div class="wrap">
       <div class="section-head">
         <h2>Другие продукты «Системы Порядка»</h2>
-        <p>«Конструктор ценников» — одна из программ «Системы Порядка». Посмотрите все программы на главной витрины.</p>
+        <p>«Конструктор ценников» — одна из программ «Системы Порядка». Посмотрите все программы на главной витрине.</p>
       </div>
       <div class="actions">
         <a class="btn" href="https://romshil6973-droid.github.io/sistema-poryadka/">Все программы «Системы Порядка»</a>
@@ -804,7 +802,6 @@
     <nav class="legal-links" aria-label="Документы">
       <a href="../oferta/">Оферта</a>
       <a href="../privacy/">Политика конфиденциальности</a>
-      <a href="../soglasie/">Согласие на рассылку</a>
     </nav>
     <span>© 2026 Система Порядка</span>
     <span>Шилов Роман Станиславович, ИНН 690301042738</span>
