@@ -1,6 +1,6 @@
 // Кнопка «Купить» на странице магазина.
 // Адрес оплаты задаётся в одном месте: атрибут data-pay-base в magazin/index.html.
-// Пока там не абсолютный http(s)-адрес, кнопки остаются на #oplata-skoro.
+// Пока там не абсолютный http(s)-адрес, кнопки остаются на #kak-kupit и неактивны. Виджет оплаты на страницу не встраивается.
 // Из адреса страницы читаются только utm_source, utm_medium, utm_campaign,
 // utm_content и utm_term. Значение — латиница, цифры, «_» и «-», не длиннее 64 знаков.
 // Ничего больше не читается, не сохраняется и никуда не отправляется.
@@ -43,7 +43,7 @@ export function applyPaymentLinks(doc, loc) {
   const href = paymentHref(source.getAttribute('data-pay-base'), loc.search || '')
   if (!href) {
     for (const button of buttons) {
-      button.setAttribute('href', '#oplata-skoro')
+      button.setAttribute('href', '#kak-kupit')
       button.setAttribute('aria-disabled', 'true')
       button.setAttribute('tabindex', '-1')
     }
